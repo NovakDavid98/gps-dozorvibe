@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\"",
     "build": "npm run build --workspace=frontend",
+    "start": "npm start --workspace=backend",
     "lint": "npm run lint --workspace=frontend"
   },
   "workspaces": [
