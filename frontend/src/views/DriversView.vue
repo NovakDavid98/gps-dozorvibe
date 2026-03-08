@@ -66,7 +66,7 @@ const formatDate = (iso: string) => {
 </script>
 
 <template>
-  <div class="p-6 h-full overflow-y-auto bg-dark-bg">
+  <div class="p-4 md:p-6 h-full overflow-y-auto bg-dark-bg pb-[calc(60px+env(safe-area-inset-bottom,0px))] md:pb-6">
     <div class="max-w-7xl mx-auto space-y-6">
 
       <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

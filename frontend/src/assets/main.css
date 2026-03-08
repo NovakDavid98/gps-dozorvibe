@@ -10,13 +10,38 @@
   --color-status-red: #EF4444;
 }
 
-html, body {
-  @apply bg-dark-bg text-gray-100 antialiased;
-  margin: 0;
-  padding: 0;
+/* iOS Safari fix: 100vh includes the browser chrome bar.
+   Using -webkit-fill-available makes the app fill only the visible area.
+   dvh is the modern standard; the webkit fallback covers older iOS. */
+html {
+  height: -webkit-fill-available;
   height: 100%;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  min-height: -webkit-fill-available;
+  min-height: 100dvh;
+  @apply bg-dark-bg text-gray-100 antialiased;
+  /* Prevent iOS Safari elastic overscroll on the body */
+  overscroll-behavior: none;
+}
+
 #app {
-  height: 100%;
+  height: -webkit-fill-available;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Bottom nav safe area padding for iPhone notch/home indicator */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Ensure Leaflet tiles load with correct z-index on iOS */
+.leaflet-tile-pane {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
