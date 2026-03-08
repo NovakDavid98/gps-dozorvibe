@@ -118,14 +118,14 @@ const formatDate = (iso: string) => {
             <div class="flex-1 min-w-0">
               <div class="font-semibold text-gray-100 truncate">{{ driver.name }}</div>
               <div class="text-xs text-gray-500 mt-0.5">
-                {{ Math.round(driver.totalDistance).toLocaleString() }} km
-                · {{ driver.totalFuel.toFixed(0) }} L
+                {{ Math.round(Number(driver.totalDistance) || 0).toLocaleString() }} km
+                · {{ (Number(driver.totalFuel) || 0).toFixed(0) }} L
                 · {{ driver.tripCount }} trips
               </div>
             </div>
             <div class="text-right flex-shrink-0">
               <span :class="['inline-block px-2 py-0.5 rounded text-xs font-semibold', efficiencyBadge(driver.avgEfficiency).cls]">
-                {{ driver.avgEfficiency > 0 ? driver.avgEfficiency.toFixed(1) + ' L/100km' : 'No Data' }}
+                {{ (Number(driver.avgEfficiency) || 0) > 0 ? (Number(driver.avgEfficiency)).toFixed(1) + ' L/100km' : 'No Data' }}
               </span>
               <div class="text-xs text-gray-600 mt-1">{{ efficiencyBadge(driver.avgEfficiency).text }}</div>
             </div>
@@ -144,7 +144,7 @@ const formatDate = (iso: string) => {
                 <div class="text-lg font-bold text-white">{{ selectedDriver.name }}</div>
                 <div :class="['text-sm font-medium', efficiencyBadge(selectedDriver.avgEfficiency).cls]">
                   {{ efficiencyBadge(selectedDriver.avgEfficiency).text }}
-                  — {{ selectedDriver.avgEfficiency > 0 ? selectedDriver.avgEfficiency.toFixed(1) + ' L/100km avg' : 'No fuel data' }}
+                  — {{ (Number(selectedDriver.avgEfficiency) || 0) > 0 ? (Number(selectedDriver.avgEfficiency)).toFixed(1) + ' L/100km avg' : 'No fuel data' }}
                 </div>
               </div>
             </div>
@@ -157,15 +157,15 @@ const formatDate = (iso: string) => {
               </div>
               <div class="bg-dark-card p-4">
                 <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Distance</div>
-                <div class="text-xl font-bold text-white">{{ Math.round(selectedDriver.totalDistance).toLocaleString() }} <span class="text-sm font-normal text-gray-500">km</span></div>
+                <div class="text-xl font-bold text-white">{{ Math.round(Number(selectedDriver.totalDistance) || 0).toLocaleString() }} <span class="text-sm font-normal text-gray-500">km</span></div>
               </div>
               <div class="bg-dark-card p-4">
                 <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Fuel Consumed</div>
-                <div class="text-xl font-bold text-white">{{ selectedDriver.totalFuel.toFixed(0) }} <span class="text-sm font-normal text-gray-500">L</span></div>
+                <div class="text-xl font-bold text-white">{{ (Number(selectedDriver.totalFuel) || 0).toFixed(0) }} <span class="text-sm font-normal text-gray-500">L</span></div>
               </div>
               <div class="bg-dark-card p-4">
                 <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Total Cost</div>
-                <div class="text-xl font-bold text-white">{{ Math.round(selectedDriver.totalCost).toLocaleString() }} <span class="text-sm font-normal text-gray-500">CZK</span></div>
+                <div class="text-xl font-bold text-white">{{ Math.round(Number(selectedDriver.totalCost) || 0).toLocaleString() }} <span class="text-sm font-normal text-gray-500">CZK</span></div>
               </div>
             </div>
 
@@ -184,9 +184,9 @@ const formatDate = (iso: string) => {
                       <span class="text-gray-600 mx-1">→</span>
                       {{ trip.FinishAddress?.split(',')[0] || 'Unknown' }}
                     </div>
-                    <div class="text-xs text-gray-500 mt-0.5">{{ formatDate(trip.StartTime) }} · {{ formatDuration(trip) }} · {{ Math.round(trip.TotalDistance) }} km</div>
+                    <div class="text-xs text-gray-500 mt-0.5">{{ formatDate(trip.StartTime) }} · {{ formatDuration(trip) }} · {{ Math.round(Number(trip.TotalDistance) || 0) }} km</div>
                   </div>
-                  <div class="text-gray-400 ml-4 flex-shrink-0">{{ Math.round(trip.TripCost?.Value || 0) }} CZK</div>
+                  <div class="text-gray-400 ml-4 flex-shrink-0">{{ Math.round(Number(trip.TripCost?.Value) || 0) }} CZK</div>
                 </div>
               </div>
             </div>

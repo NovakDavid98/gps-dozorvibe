@@ -71,9 +71,9 @@ export const useFleetStore = defineStore('fleet', () => {
     allTrips.value.forEach(trip => {
       const d = format(new Date(trip.StartTime), 'MMM d')
       if (days[d]) {
-        days[d].cost += trip.TripCost?.Value || 0
-        days[d].fuel += trip.FuelConsumed?.Value || 0
-        days[d].distance += trip.TotalDistance || 0
+        days[d].cost += Number(trip.TripCost?.Value) || 0
+        days[d].fuel += Number(trip.FuelConsumed?.Value) || 0
+        days[d].distance += Number(trip.TotalDistance) || 0
       }
     })
 
@@ -89,9 +89,9 @@ export const useFleetStore = defineStore('fleet', () => {
       if (!vmap[key]) {
         vmap[key] = { name: trip.vehicleName || key, cost: 0, fuel: 0, distance: 0 }
       }
-      vmap[key].cost += trip.TripCost?.Value || 0
-      vmap[key].fuel += trip.FuelConsumed?.Value || 0
-      vmap[key].distance += trip.TotalDistance || 0
+      vmap[key].cost += Number(trip.TripCost?.Value) || 0
+      vmap[key].fuel += Number(trip.FuelConsumed?.Value) || 0
+      vmap[key].distance += Number(trip.TotalDistance) || 0
     })
 
     return Object.values(vmap)
@@ -103,9 +103,9 @@ export const useFleetStore = defineStore('fleet', () => {
   })
 
   // Total fleet metrics
-  const totalCost = computed(() => allTrips.value.reduce((s, t) => s + (t.TripCost?.Value || 0), 0))
-  const totalFuel = computed(() => allTrips.value.reduce((s, t) => s + (t.FuelConsumed?.Value || 0), 0))
-  const totalDistance = computed(() => allTrips.value.reduce((s, t) => s + (t.TotalDistance || 0), 0))
+  const totalCost = computed(() => allTrips.value.reduce((s, t) => s + (Number(t.TripCost?.Value) || 0), 0))
+  const totalFuel = computed(() => allTrips.value.reduce((s, t) => s + (Number(t.FuelConsumed?.Value) || 0), 0))
+  const totalDistance = computed(() => allTrips.value.reduce((s, t) => s + (Number(t.TotalDistance) || 0), 0))
   const fleetEfficiency = computed(() =>
     totalDistance.value > 0 ? (totalFuel.value / totalDistance.value) * 100 : 0
   )
@@ -120,9 +120,9 @@ export const useFleetStore = defineStore('fleet', () => {
         dmap[name] = { name, trips: [], totalDistance: 0, totalFuel: 0, totalCost: 0, avgEfficiency: 0, tripCount: 0 }
       }
       dmap[name].trips.push(trip)
-      dmap[name].totalDistance += trip.TotalDistance || 0
-      dmap[name].totalFuel += trip.FuelConsumed?.Value || 0
-      dmap[name].totalCost += trip.TripCost?.Value || 0
+      dmap[name].totalDistance += Number(trip.TotalDistance) || 0
+      dmap[name].totalFuel += Number(trip.FuelConsumed?.Value) || 0
+      dmap[name].totalCost += Number(trip.TripCost?.Value) || 0
       dmap[name].tripCount++
     })
 

@@ -224,7 +224,7 @@ const weatherIcon = (precip: number | null) => {
           <div class="flex items-center gap-3 mt-1.5 text-xs text-gray-500">
             <span>{{ trip.DriverName || 'Unknown' }}</span>
             <span>·</span>
-            <span>{{ Math.round(trip.TotalDistance) }} km</span>
+            <span>{{ Math.round(Number(trip.TotalDistance) || 0) }} km</span>
             <span>·</span>
             <span>{{ trip.TripLength }}</span>
           </div>
@@ -277,23 +277,23 @@ const weatherIcon = (precip: number | null) => {
           <!-- Stats -->
           <div class="flex gap-6 text-center flex-shrink-0">
             <div>
-              <div class="text-lg font-bold text-white">{{ Math.round(selectedTrip.TotalDistance) }}</div>
+              <div class="text-lg font-bold text-white">{{ Math.round(Number(selectedTrip.TotalDistance) || 0) }}</div>
               <div class="text-[10px] text-gray-500 uppercase tracking-wider">km</div>
             </div>
             <div>
-              <div class="text-lg font-bold text-white">{{ selectedTrip.TripLength }}</div>
+              <div class="text-lg font-bold text-white">{{ selectedTrip.TripLength || '—' }}</div>
               <div class="text-[10px] text-gray-500 uppercase tracking-wider">Duration</div>
             </div>
             <div>
-              <div class="text-lg font-bold text-white">{{ selectedTrip.AverageSpeed }}</div>
+              <div class="text-lg font-bold text-white">{{ Math.round(Number(selectedTrip.AverageSpeed) || 0) }}</div>
               <div class="text-[10px] text-gray-500 uppercase tracking-wider">Avg km/h</div>
             </div>
             <div>
-              <div class="text-lg font-bold text-white">{{ (selectedTrip.FuelConsumed?.Value || 0).toFixed(1) }}</div>
+              <div class="text-lg font-bold text-white">{{ (Number(selectedTrip.FuelConsumed?.Value) || 0).toFixed(1) }}</div>
               <div class="text-[10px] text-gray-500 uppercase tracking-wider">Litres</div>
             </div>
             <div>
-              <div class="text-lg font-bold text-white">{{ Math.round(selectedTrip.TripCost?.Value || 0) }}</div>
+              <div class="text-lg font-bold text-white">{{ Math.round(Number(selectedTrip.TripCost?.Value) || 0) }}</div>
               <div class="text-[10px] text-gray-500 uppercase tracking-wider">CZK</div>
             </div>
           </div>
