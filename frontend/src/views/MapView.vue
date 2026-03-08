@@ -12,8 +12,10 @@ let refreshInterval: any = null
 
 const activeVehicles = computed(() => vehicles.value.filter(v => v.Speed > 0).length)
 const totalKm = computed(() => {
-  // Mocking daily distance for now, normally we'd aggregate trips
-  return Math.round(vehicles.value.reduce((acc, v) => acc + (v.Odometer % 100), 0))
+  // Sum odometer values and express in km (API returns meters)
+  const maxOdo = Math.max(...vehicles.value.map(v => v.Odometer || 0))
+  const minOdo = Math.min(...vehicles.value.filter(v => v.Odometer > 0).map(v => v.Odometer || 0))
+  return maxOdo > minOdo ? Math.round((maxOdo - minOdo) / 1000) : '—'
 })
 
 onMounted(async () => {

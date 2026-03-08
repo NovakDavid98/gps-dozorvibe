@@ -1,6 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-dark-bg: #0B0F1A;
+  --color-dark-card: #131825;
+  --color-primary: #3B82F6;
+  --color-secondary: #06B6D4;
+  --color-status-green: #22C55E;
+  --color-status-yellow: #EAB308;
+  --color-status-red: #EF4444;
+}
 
 html, body {
   @apply bg-dark-bg text-gray-100 antialiased;
