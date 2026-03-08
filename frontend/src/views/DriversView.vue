@@ -22,8 +22,8 @@ onMounted(async () => {
   if (store.allTrips.length === 0) {
     await store.fetchAllTrips()
   }
-  if (store.driverStats.length > 0) {
-    selectedDriver.value = rankedDrivers.value[0]
+  if (rankedDrivers.value.length > 0) {
+    selectedDriver.value = rankedDrivers.value[0] ?? null
   }
 })
 
@@ -48,7 +48,7 @@ const efficiencyBadge = (l100: number) => {
 }
 
 const initials = (name: string) =>
-  name.split(/[\s,]+/).filter(Boolean).slice(0, 2).map(p => p[0].toUpperCase()).join('')
+  name.split(/[\s,]+/).filter(p => p.length > 0).slice(0, 2).map(p => p[0]!.toUpperCase()).join('')
 
 const selectDriver = (d: DriverStat) => {
   selectedDriver.value = d

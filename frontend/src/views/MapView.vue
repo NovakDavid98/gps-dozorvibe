@@ -62,8 +62,15 @@ const getCustomIcon = (isMoving: boolean) => {
   })
 }
 
+const focusVehicle = (vehicle: any) => {
+  if (!map || !vehicle.LastPosition) return
+  map.setView([parseFloat(vehicle.LastPosition.Latitude), parseFloat(vehicle.LastPosition.Longitude)], 12)
+  markers[vehicle.Code]?.openPopup()
+}
+
 const updateMarkers = () => {
   if (!map) return
+  const activeMap = map
 
   vehicles.value.forEach(v => {
     if (!v.LastPosition || !v.LastPosition.Latitude) return
@@ -71,16 +78,17 @@ const updateMarkers = () => {
     const lat = parseFloat(v.LastPosition.Latitude)
     const lng = parseFloat(v.LastPosition.Longitude)
     const isMoving = v.Speed > 0
+    const existing = markers[v.Code]
 
-    if (markers[v.Code]) {
-      markers[v.Code].setLatLng([lat, lng])
-      markers[v.Code].setIcon(getCustomIcon(isMoving))
-      markers[v.Code].setPopupContent(`
+    if (existing) {
+      existing.setLatLng([lat, lng])
+      existing.setIcon(getCustomIcon(isMoving))
+      existing.setPopupContent(`
         <div class="font-bold text-white">${v.Name}</div>
         <div class="text-xs text-gray-400">${v.SPZ} · ${v.Speed} km/h</div>
       `)
     } else {
-      const marker = L.marker([lat, lng], { icon: getCustomIcon(isMoving) }).addTo(map)
+      const marker = L.marker([lat, lng], { icon: getCustomIcon(isMoving) }).addTo(activeMap)
       marker.bindPopup(`
         <div class="font-bold text-white">${v.Name}</div>
         <div class="text-xs text-gray-400">${v.SPZ} · ${v.Speed} km/h</div>
@@ -129,12 +137,7 @@ const updateMarkers = () => {
         <div class="flex-1 overflow-y-auto p-2">
           <div v-for="vehicle in vehicles" :key="vehicle.Code" 
             class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800/50 transition-colors cursor-pointer"
-            @click="() => {
-              if (map && vehicle.LastPosition) {
-                map.setView([parseFloat(vehicle.LastPosition.Latitude), parseFloat(vehicle.LastPosition.Longitude)], 12)
-                markers[vehicle.Code]?.openPopup()
-              }
-            }"
+            @click="focusVehicle(vehicle)"
           >
             <div :class="['w-2.5 h-2.5 rounded-full flex-shrink-0', vehicle.Speed > 0 ? 'bg-status-green shadow-[0_0_8px_rgba(34,197,94,0.4)]' : 'bg-gray-500']"></div>
             <div class="flex-1 min-w-0">
